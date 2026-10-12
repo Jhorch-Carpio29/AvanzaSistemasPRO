@@ -16,10 +16,10 @@ export default function HeroSection({ config }: HeroSectionProps) {
   return (
     <section 
       id="hero" 
-      className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-[url('/fondo.jpg')] bg-cover bg-center bg-no-repeat"
+      className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-[url('/fondo.jpg')] bg-[length:100%_auto] sm:bg-cover bg-center bg-no-repeat"
     >
-      {/* Capa oscura (Overlay) para garantizar la legibilidad del texto sobre la foto de fondo */}
-      <div className="absolute inset-0 bg-black/75 backdrop-blur-[1px]" />
+      {/* Capa oscura (Overlay) adaptada para que resalte el texto tanto en móvil como en escritorio */}
+      <div className="absolute inset-0 bg-black/70 sm:bg-black/75 backdrop-blur-[1px]" />
 
       <div className="hero-particles" />
       <div
