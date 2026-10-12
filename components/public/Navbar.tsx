@@ -45,8 +45,10 @@ export default function Navbar() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold to-crimson flex items-center justify-center group-hover:shadow-lg group-hover:shadow-gold/20 transition-all">
               <Zap className="w-4 h-4 text-dark" />
             </div>
-            <span className="font-bold text-sm tracking-wider text-text-primary">
-              AVANZA<span className="text-gold"> PRO</span>
+            <span className="font-bold text-xs sm:text-sm tracking-wider">
+              <span className="text-gold">AVANZA</span>{" "}
+              <span className="text-text-primary">SISTEMAS</span>{" "}
+              <span className="text-crimson">PRO</span>
             </span>
           </button>
 
