@@ -60,7 +60,7 @@ export default function Sidebar({ config }: SidebarProps) {
           AVANZA SISTEMAS PRO
         </p>
         <p className="mt-1 text-center text-[11px] text-text-muted leading-snug px-1">
-          EFP Ingeniería de Sistemas
+          EP Ingeniería de Sistemas
         </p>
       </button>
 
@@ -108,8 +108,10 @@ export default function Sidebar({ config }: SidebarProps) {
           <span className="relative h-10 w-10 rounded-full overflow-hidden border border-gold/40 shrink-0">
             <Image src="/logo.png" alt="Logo" fill className="object-cover rounded-full" sizes="40px" />
           </span>
-          <span className="text-xs font-bold tracking-wider truncate">
-            AVANZA<span className="text-gold"> PRO</span>
+          <span className="text-[11px] sm:text-xs font-bold tracking-wider truncate">
+            <span className="text-gold">AVANZA</span>{" "}
+            <span className="text-text-primary">SISTEMAS</span>{" "}
+            <span className="text-crimson">PRO</span>
           </span>
         </button>
         <button
