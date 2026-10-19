@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CalendarCheck } from "lucide-react";
 import type { ConfigCampana } from "@/lib/types";
 import { campaignSocials } from "@/lib/social";
 import { OfficialSocialRow } from "@/components/ui/OfficialSocials";
@@ -66,6 +66,43 @@ export default function HeroSection({ config }: HeroSectionProps) {
         >
           {slogan}
         </p>
+
+        <div
+          id="elecciones"
+          className="mb-10 flex flex-col items-center gap-4 animate-slide-up scroll-mt-24"
+          style={{ animationDelay: "0.35s" }}
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gold/50 bg-gold/10 text-gold text-xs sm:text-sm font-bold uppercase tracking-[0.15em] shadow-[0_0_20px_rgba(234,179,8,0.2)]">
+            <CalendarCheck className="w-4 h-4" />
+            Este 4 de diciembre marca así
+          </div>
+          <div className="flex items-start justify-center gap-4 sm:gap-6">
+            <div className="flex flex-col items-center gap-2">
+              <div className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-2xl overflow-hidden border-2 border-gold bg-white/95 shadow-[0_0_25px_rgba(234,179,8,0.35)]">
+                <Image
+                  src={config?.logo_url || "/logo.png"}
+                  alt="Logo oficial AVANZA SISTEMAS PRO"
+                  fill
+                  className="object-contain p-2"
+                  sizes="128px"
+                />
+              </div>
+              <span className="text-[11px] sm:text-xs font-bold tracking-wider">
+                <span className="text-gold">AVANZA</span>{" "}
+                <span className="text-text-primary">SISTEMAS</span>{" "}
+                <span className="text-crimson">PRO</span>
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <div className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-2xl border-2 border-gold bg-white flex items-center justify-center shadow-[0_0_25px_rgba(234,179,8,0.35)]">
+                <span className="text-7xl sm:text-8xl font-black text-black leading-none">1</span>
+              </div>
+              <span className="text-[11px] sm:text-xs font-bold tracking-wider text-gold uppercase">
+                Lista 1
+              </span>
+            </div>
+          </div>
+        </div>
 
         <div
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10 animate-slide-up"

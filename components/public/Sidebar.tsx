@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Home, Users, FileText, Calendar, Inbox, Menu, X } from "lucide-react";
+import { Home, Users, FileText, Calendar, Inbox, Menu, X, Vote } from "lucide-react";
 import type { ConfigCampana } from "@/lib/types";
 import { campaignSocials } from "@/lib/social";
 import { OfficialSocialRow } from "@/components/ui/OfficialSocials";
@@ -12,6 +12,7 @@ const navLinks = [
   { label: "Equipo", href: "#equipo", icon: Users, hint: "Candidatos" },
   { label: "Propuestas", href: "#propuestas", icon: FileText, hint: "Plan de gobierno" },
   { label: "Eventos", href: "#eventos", icon: Calendar, hint: "Cronograma" },
+  { label: "Cómo votar", href: "#como-votar", icon: Vote, hint: "4 de diciembre" },
   { label: "Sugerencias", href: "#sugerencias", icon: Inbox, hint: "Buzón estudiantil" },
 ];
 
@@ -23,27 +24,45 @@ export default function Sidebar({ config }: SidebarProps) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("#hero");
 
+  const lockUntil = useRef(0);
+
+  // Scroll-spy: la sección activa es la última cuyo borde superior ya pasó la línea de referencia
   useEffect(() => {
     const ids = navLinks.map((l) => l.href.slice(1));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target.id) setActive(`#${visible.target.id}`);
-      },
-      { rootMargin: "-35% 0px -50% 0px", threshold: [0.15, 0.4] }
-    );
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      if (Date.now() < lockUntil.current) return;
+      const line = window.innerHeight * 0.35;
+      let current = ids[0];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= line) current = id;
+      }
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      if (atBottom) current = ids[ids.length - 1];
+      setActive(`#${current}`);
+    };
+    const onScroll = () => {
+      if (Date.now() < lockUntil.current) lockUntil.current = Date.now() + 150;
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   const handleClick = (href: string) => {
     setOpen(false);
     setActive(href);
+    // Durante el desplazamiento suave se mantiene el destino resaltado
+    lockUntil.current = Date.now() + 150;
+    if (href === "#equipo") window.dispatchEvent(new Event("equipo:reset"));
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };

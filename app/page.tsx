@@ -3,6 +3,7 @@ import HeroSection from "@/components/public/HeroSection";
 import TeamSection from "@/components/public/TeamSection";
 import ProposalsSection from "@/components/public/ProposalsSection";
 import EventsTimeline from "@/components/public/EventsTimeline";
+import HowToVote from "@/components/public/HowToVote";
 import SuggestionsForm from "@/components/public/SuggestionsForm";
 import Footer from "@/components/public/Footer";
 import { createClient } from "@/lib/supabase/server";
@@ -53,6 +54,7 @@ export default async function Home() {
             categorias={(categorias as CategoriaPropuesta[]) ?? []}
           />
           <EventsTimeline eventos={(eventos as Evento[]) ?? []} />
+          <HowToVote />
           <SuggestionsForm />
         </main>
         <Footer config={cfg} />

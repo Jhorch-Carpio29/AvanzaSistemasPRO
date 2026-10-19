@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Users, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Candidato } from "@/lib/types";
 import CandidateModal from "./CandidateModal";
@@ -9,10 +9,18 @@ interface TeamSectionProps {
   candidatos: Candidato[];
 }
 
-export default function TeamSection({ candidatos }: TeamSectionProps) {
+export default function TeamSection({ candidatos: candidatosRaw }: TeamSectionProps) {
+  // El presidente (cargo "Presidente", no "Vicepresidente") siempre va primero
+  const candidatos = useMemo(() => {
+    const idx = candidatosRaw.findIndex((c) => /^\s*presiden/i.test(c.cargo));
+    if (idx <= 0) return candidatosRaw;
+    return [candidatosRaw[idx], ...candidatosRaw.filter((_, i) => i !== idx)];
+  }, [candidatosRaw]);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const [selectedCandidato, setSelectedCandidato] = useState<Candidato | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [progressWidth, setProgressWidth] = useState(100);
 
   const nextSlide = useCallback(() => {
@@ -23,11 +31,41 @@ export default function TeamSection({ candidatos }: TeamSectionProps) {
     setActiveIndex((current) => (current === 0 ? candidatos.length - 1 : current - 1));
   }, [candidatos.length]);
 
+  // Al salir del módulo, el carrusel vuelve al primero (presidente)
   useEffect(() => {
-    if (isPaused || selectedCandidato || candidatos.length <= 1) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+        // Siempre se empieza (y se vuelve a empezar) por el presidente
+        setActiveIndex(0);
+      },
+      { threshold: 0, rootMargin: "-25% 0px -25% 0px" }
+    );
+    observer.observe(el);
+
+    // Cada vez que se navega a "Equipo" (menú, botón de portada o enlace) se reinicia en el presidente
+    const resetToFirst = () => setActiveIndex(0);
+    const onClick = (e: MouseEvent) => {
+      if ((e.target as HTMLElement | null)?.closest?.('a[href="#equipo"]')) resetToFirst();
+    };
+    window.addEventListener("equipo:reset", resetToFirst);
+    window.addEventListener("hashchange", resetToFirst);
+    document.addEventListener("click", onClick);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("equipo:reset", resetToFirst);
+      window.removeEventListener("hashchange", resetToFirst);
+      document.removeEventListener("click", onClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || !isVisible || selectedCandidato || candidatos.length <= 1) return;
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
-  }, [isPaused, selectedCandidato, nextSlide, candidatos.length]);
+  }, [isPaused, isVisible, selectedCandidato, nextSlide, candidatos.length]);
 
   useEffect(() => {
     if (isPaused || selectedCandidato || candidatos.length <= 1) {
@@ -45,7 +83,7 @@ export default function TeamSection({ candidatos }: TeamSectionProps) {
   }, [activeIndex, isPaused, selectedCandidato, candidatos.length]);
 
   return (
-    <section id="equipo" className="py-24 relative">
+    <section id="equipo" ref={sectionRef} className="py-24 relative">
       <div className="section-container">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -114,18 +152,25 @@ export default function TeamSection({ candidatos }: TeamSectionProps) {
                 return (
                   <div
                     key={candidato.id}
-                    className={`absolute inset-0 card-cyber p-1 flex flex-col transition-all duration-500 ease-in-out ${
+                    className={`absolute inset-0 card-cyber p-1 flex flex-col bg-gradient-to-b from-[#1b1608] via-dark-card to-[#1a0b0b] !border-gold/40 shadow-[0_0_30px_rgba(234,179,8,0.12)] transition-all duration-500 ease-in-out ${
                       isActive ? "opacity-100 translate-x-0 z-10" : "opacity-0 translate-x-8 -z-10 pointer-events-none"
                     }`}
                   >
+                    {/* Cargo badge: fuera de la foto para no tapar el rostro */}
+                    <div className="shrink-0 flex justify-center px-3 pt-3 pb-2 bg-gradient-to-r from-gold/15 via-crimson/15 to-gold/15 rounded-t-[11px] border-b border-gold/20">
+                      <span className="px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-gradient-to-r from-crimson to-crimson-dim text-white shadow-lg border border-crimson/50 uppercase tracking-wider text-center leading-tight">
+                        {candidato.cargo}
+                      </span>
+                    </div>
+
                     {/* Photo */}
-                    <div className="relative flex-1 rounded-t-[11px] overflow-hidden bg-dark-elevated min-h-0">
+                    <div className="relative flex-1 overflow-hidden min-h-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(234,179,8,0.22)_0%,rgba(220,38,38,0.10)_45%,#0d0d0f_80%)]">
                       {candidato.foto_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={candidato.foto_url}
                           alt={candidato.nombre}
-                          className="absolute inset-0 w-full h-full object-contain bg-zinc-950/50 p-2 rounded-t-xl transition-transform duration-500"
+                          className="absolute inset-0 w-full h-full object-contain p-2 drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)] transition-transform duration-500"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
@@ -138,25 +183,19 @@ export default function TeamSection({ candidatos }: TeamSectionProps) {
                       )}
                       {/* Overlay gradient */}
                       <div className="absolute inset-0 bg-gradient-to-t from-dark-card via-transparent to-transparent opacity-80" />
-                      {/* Cargo badge */}
-                      <div className="absolute top-4 left-4">
-                        <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-crimson/90 text-white backdrop-blur-sm shadow-lg border border-crimson/50 uppercase tracking-wider mt-2">
-                          {candidato.cargo}
-                        </span>
-                      </div>
                     </div>
 
                     {/* Info */}
-                    <div className="p-5 sm:p-6 bg-dark/60 rounded-b-[11px] shrink-0 border-t border-dark-border/50">
-                      <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-1">
+                    <div className="p-5 sm:p-6 bg-gradient-to-b from-dark/70 to-gold/10 rounded-b-[11px] shrink-0 border-t border-gold/30">
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gold mb-2">
                         {candidato.nombre}
                       </h3>
                       {candidato.ciclo && (
-                        <p className="text-sm text-gold/80 mb-5 font-medium tracking-wide">{candidato.ciclo}</p>
+                        <p className="inline-block px-3 py-1 rounded-full bg-cyan/10 border border-cyan/30 text-xs text-cyan mb-5 font-semibold tracking-widest uppercase">{candidato.ciclo}</p>
                       )}
                       <button
                         onClick={() => setSelectedCandidato(candidato)}
-                        className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-dark-elevated border border-gold/30 text-gold text-sm font-semibold hover:bg-gold hover:text-dark hover:border-gold transition-all duration-300 shadow-[0_0_15px_rgba(234,179,8,0.1)] hover:shadow-[0_0_20px_rgba(234,179,8,0.3)]"
+                        className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-gradient-to-r from-gold/15 to-crimson/15 border border-gold/50 text-gold text-sm font-semibold hover:bg-gold hover:text-dark hover:border-gold transition-all duration-300 shadow-[0_0_15px_rgba(234,179,8,0.1)] hover:shadow-[0_0_20px_rgba(234,179,8,0.3)]"
                       >
                         <Eye className="w-5 h-5" />
                         Ver Perfil Completo

@@ -88,7 +88,7 @@ export default function CandidateModal({ candidato, isOpen, onClose }: Candidate
           <div className="space-y-4">
             {/* Bio */}
             {candidato.sobre_mi && (
-              <div className="p-5 rounded-2xl bg-dark-elevated border border-dark-border/50 hover:border-gold/30 transition-colors shadow-lg relative overflow-hidden group">
+              <div className="p-5 rounded-2xl bg-dark-elevated border border-dark-border/50 hover:border-gold/50 transition-colors shadow-lg relative overflow-hidden group bg-gradient-to-br from-gold/10 via-dark-elevated to-dark-elevated border-l-4 border-l-gold">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-cyan/5 blur-[50px] rounded-full group-hover:bg-cyan/10 transition-colors" />
                 <h3 className="text-xs font-bold text-gold uppercase tracking-widest mb-3 flex items-center gap-2">
                   <div className="p-1.5 rounded-md bg-gold/10 text-gold">
@@ -96,7 +96,7 @@ export default function CandidateModal({ candidato, isOpen, onClose }: Candidate
                   </div>
                   Sobre Mí
                 </h3>
-                <p className="text-sm text-text-secondary leading-relaxed relative z-10">
+                <p className="text-sm text-zinc-100 leading-relaxed relative z-10 text-justify hyphens-auto" lang="es">
                   {candidato.sobre_mi}
                 </p>
               </div>
@@ -104,7 +104,7 @@ export default function CandidateModal({ candidato, isOpen, onClose }: Candidate
 
             {/* Vision */}
             {candidato.vision && (
-              <div className="p-5 rounded-2xl bg-dark-elevated border border-dark-border/50 hover:border-crimson/30 transition-colors shadow-lg relative overflow-hidden group">
+              <div className="p-5 rounded-2xl bg-dark-elevated border border-dark-border/50 hover:border-crimson/50 transition-colors shadow-lg relative overflow-hidden group bg-gradient-to-br from-crimson/15 via-dark-elevated to-dark-elevated border-l-4 border-l-crimson">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-crimson/5 blur-[50px] rounded-full group-hover:bg-crimson/10 transition-colors" />
                 <h3 className="text-xs font-bold text-crimson uppercase tracking-widest mb-3 flex items-center gap-2">
                   <div className="p-1.5 rounded-md bg-crimson/10 text-crimson">
@@ -112,7 +112,7 @@ export default function CandidateModal({ candidato, isOpen, onClose }: Candidate
                   </div>
                   Visión Estudiantil
                 </h3>
-                <p className="text-sm text-text-secondary leading-relaxed relative z-10">
+                <p className="text-sm text-zinc-100 leading-relaxed relative z-10 text-justify hyphens-auto" lang="es">
                   {candidato.vision}
                 </p>
               </div>
@@ -122,7 +122,7 @@ export default function CandidateModal({ candidato, isOpen, onClose }: Candidate
           <div className="space-y-4">
             {/* Experience */}
             {candidato.experiencia && candidato.experiencia.length > 0 && (
-              <div className="p-5 rounded-2xl bg-dark-elevated border border-dark-border/50 hover:border-gold/30 transition-colors shadow-lg">
+              <div className="p-5 rounded-2xl border border-dark-border/50 hover:border-gold/50 transition-colors shadow-lg bg-gradient-to-br from-gold/10 via-dark-elevated to-dark-elevated border-l-4 border-l-gold">
                 <h3 className="text-xs font-bold text-gold uppercase tracking-widest mb-4 flex items-center gap-2">
                   <div className="p-1.5 rounded-md bg-gold/10 text-gold">
                     <Briefcase className="w-4 h-4" />
@@ -147,10 +147,10 @@ export default function CandidateModal({ candidato, isOpen, onClose }: Candidate
                         <div className="absolute left-0 top-1 w-5 h-5 bg-dark-elevated flex items-center justify-center">
                           <div className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_rgba(234,179,8,0.5)]" />
                         </div>
-                        {titulo && <h4 className="text-[#EAB308] font-bold text-sm">{titulo}</h4>}
-                        {periodo && <span className="inline-block px-2 py-0.5 mt-1 rounded bg-dark-border text-[#06B6D4] text-xs font-semibold">{periodo}</span>}
+                        {titulo && <h4 className="text-[#FACC15] font-bold text-sm">{titulo}</h4>}
+                        {periodo && <span className="inline-block px-2 py-0.5 mt-1 rounded bg-cyan/15 border border-cyan/30 text-[#22D3EE] text-xs font-semibold">{periodo}</span>}
                         {descripcion && (
-                          <p className="text-zinc-200 text-xs mt-1 leading-relaxed">
+                          <p className="text-zinc-100 text-[13px] mt-1 leading-relaxed text-justify">
                             {descripcion}
                           </p>
                         )}
@@ -163,7 +163,7 @@ export default function CandidateModal({ candidato, isOpen, onClose }: Candidate
 
             {/* Skills */}
             {candidato.habilidades && candidato.habilidades.length > 0 && (
-              <div className="p-5 rounded-2xl bg-dark-elevated border border-dark-border/50 hover:border-cyan/30 transition-colors shadow-lg">
+              <div className="p-5 rounded-2xl border border-dark-border/50 hover:border-cyan/50 transition-colors shadow-lg bg-gradient-to-br from-cyan/10 via-dark-elevated to-dark-elevated border-l-4 border-l-cyan">
                 <h3 className="text-xs font-bold text-cyan uppercase tracking-widest mb-4 flex items-center gap-2">
                   <div className="p-1.5 rounded-md bg-cyan/10 text-cyan">
                     <Code2 className="w-4 h-4" />
@@ -185,13 +185,13 @@ export default function CandidateModal({ candidato, isOpen, onClose }: Candidate
                     return (
                       <div key={i} className="group">
                         {area && (
-                          <h4 className="text-[#06B6D4] font-semibold text-sm flex items-center gap-1.5 mb-1">
-                            <ChevronRight className="w-3 h-3 text-[#06B6D4] group-hover:translate-x-1 transition-transform shrink-0" />
+                          <h4 className="text-[#22D3EE] font-semibold text-sm flex items-center gap-1.5 mb-1">
+                            <ChevronRight className="w-3 h-3 text-[#22D3EE] group-hover:translate-x-1 transition-transform shrink-0" />
                             {area}
                           </h4>
                         )}
                         {descripcion && (
-                          <p className="text-zinc-200 text-xs mt-1 pl-4 leading-relaxed">
+                          <p className="text-zinc-100 text-[13px] mt-1 pl-4 leading-relaxed text-justify">
                             {descripcion}
                           </p>
                         )}
