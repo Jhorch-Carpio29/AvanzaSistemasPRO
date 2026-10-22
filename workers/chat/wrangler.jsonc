@@ -1,0 +1,14 @@
+{
+  "name": "avanza-chat",
+  "main": "index.mjs",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "ai": { "binding": "AI" },
+  "observability": { "enabled": true },
+  "vars": {
+    "SUPABASE_URL": "https://evumcnoatoffcredqfwh.supabase.co",
+    "AI_MODEL": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "AI_GATEWAY_ID": "avanza-chat",
+    "ALLOWED_ORIGINS": "https://avanzasistemaspro.online,https://www.avanzasistemaspro.online,https://avanza-sistemas-pro.jhor-carpio-27.workers.dev,http://localhost:3000"
+  }
+}

@@ -5,6 +5,7 @@ import ProposalsSection from "@/components/public/ProposalsSection";
 import EventsTimeline from "@/components/public/EventsTimeline";
 import HowToVote from "@/components/public/HowToVote";
 import SuggestionsForm from "@/components/public/SuggestionsForm";
+import ChatWidget from "@/components/public/ChatWidget";
 import Footer from "@/components/public/Footer";
 import { createClient } from "@/lib/supabase/server";
 import type {
@@ -59,6 +60,7 @@ export default async function Home() {
         </main>
         <Footer config={cfg} />
       </div>
+      <ChatWidget />
     </div>
   );
 }

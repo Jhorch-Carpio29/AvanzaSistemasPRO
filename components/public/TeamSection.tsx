@@ -86,7 +86,7 @@ export default function TeamSection({ candidatos: candidatosRaw }: TeamSectionPr
     <section id="equipo" ref={sectionRef} className="py-24 relative">
       <div className="section-container">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 lg:mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan/20 bg-cyan-glow mb-4">
             <Users className="w-4 h-4 text-cyan" />
             <span className="text-sm text-cyan font-medium tracking-wider">NUESTRO EQUIPO</span>
@@ -107,7 +107,8 @@ export default function TeamSection({ candidatos: candidatosRaw }: TeamSectionPr
 
         {candidatos.length > 0 && (
           <div 
-            className="relative w-full max-w-md mx-auto"
+            className="relative mx-auto"
+            style={{ width: "min(28rem, 100%, calc(clamp(420px, 100dvh - 18rem, 672px) * 0.6667))" }}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onTouchStart={() => setIsPaused(true)}
@@ -134,7 +135,7 @@ export default function TeamSection({ candidatos: candidatosRaw }: TeamSectionPr
             )}
 
             {/* Slider Container */}
-            <div className="relative aspect-[3/4.2] overflow-hidden rounded-[15px] border border-dark-border/50 bg-dark-card shadow-2xl">
+            <div className="relative aspect-[3/4.5] w-full overflow-hidden rounded-[15px] border border-dark-border/50 bg-dark-card shadow-2xl">
               
               {/* Progress Bar */}
               {candidatos.length > 1 && (
@@ -186,18 +187,18 @@ export default function TeamSection({ candidatos: candidatosRaw }: TeamSectionPr
                     </div>
 
                     {/* Info */}
-                    <div className="p-5 sm:p-6 bg-gradient-to-b from-dark/70 to-gold/10 rounded-b-[11px] shrink-0 border-t border-gold/30">
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gold mb-2">
+                    <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-gradient-to-b from-dark/70 to-gold/10 rounded-b-[11px] shrink-0 border-t border-gold/30">
+                      <h3 className="text-lg sm:text-[1.3rem] leading-tight font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gold mb-1.5">
                         {candidato.nombre}
                       </h3>
                       {candidato.ciclo && (
-                        <p className="inline-block px-3 py-1 rounded-full bg-cyan/10 border border-cyan/30 text-xs text-cyan mb-5 font-semibold tracking-widest uppercase">{candidato.ciclo}</p>
+                        <p className="inline-block px-2.5 py-0.5 rounded-full bg-cyan/10 border border-cyan/30 text-[11px] text-cyan mb-3 font-semibold tracking-widest uppercase">{candidato.ciclo}</p>
                       )}
                       <button
                         onClick={() => setSelectedCandidato(candidato)}
-                        className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-gradient-to-r from-gold/15 to-crimson/15 border border-gold/50 text-gold text-sm font-semibold hover:bg-gold hover:text-dark hover:border-gold transition-all duration-300 shadow-[0_0_15px_rgba(234,179,8,0.1)] hover:shadow-[0_0_20px_rgba(234,179,8,0.3)]"
+                        className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-gradient-to-r from-gold/15 to-crimson/15 border border-gold/50 text-gold text-xs font-semibold hover:bg-gold hover:text-dark hover:border-gold transition-all duration-300 shadow-[0_0_15px_rgba(234,179,8,0.1)] hover:shadow-[0_0_20px_rgba(234,179,8,0.3)]"
                       >
-                        <Eye className="w-5 h-5" />
+                        <Eye className="w-4 h-4" />
                         Ver Perfil Completo
                       </button>
                     </div>

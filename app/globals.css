@@ -249,3 +249,22 @@ html {
     scroll-padding-top: 1.5rem;
   }
 }
+
+/* Al navegar desde el menú, la sección arranca casi al ras de su título (sin el relleno superior) */
+#equipo,
+#propuestas,
+#eventos,
+#como-votar,
+#sugerencias {
+  scroll-margin-top: -1.5rem; /* móvil: relleno 6rem - cabecera fija 4rem - 0.5rem de aire */
+}
+
+@media (min-width: 1024px) {
+  #equipo,
+  #propuestas,
+  #eventos,
+  #como-votar,
+  #sugerencias {
+    scroll-margin-top: -5.5rem; /* escritorio: relleno 6rem - 0.5rem de aire */
+  }
+}
