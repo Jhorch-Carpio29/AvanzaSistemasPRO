@@ -250,13 +250,16 @@ html {
   }
 }
 
-/* Al navegar desde el menú, la sección arranca casi al ras de su título (sin el relleno superior) */
+/* Secciones del menú: relleno vertical compacto y simétrico, para que al navegar
+   el título quede al ras arriba y el contenido termine al ras abajo */
 #equipo,
 #propuestas,
 #eventos,
 #como-votar,
 #sugerencias {
-  scroll-margin-top: -1.5rem; /* móvil: relleno 6rem - cabecera fija 4rem - 0.5rem de aire */
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  scroll-margin-top: 1.5rem; /* móvil: justo debajo de la cabecera fija (4rem) */
 }
 
 @media (min-width: 1024px) {
@@ -265,6 +268,33 @@ html {
   #eventos,
   #como-votar,
   #sugerencias {
-    scroll-margin-top: -5.5rem; /* escritorio: relleno 6rem - 0.5rem de aire */
+    scroll-margin-top: -2.5rem; /* escritorio: el título queda a 0.5rem del borde superior */
   }
+}
+
+/* Botón del asistente: vibración periódica + ondas */
+@keyframes bot-shake {
+  0%, 62%, 100% { transform: rotate(0) scale(1); }
+  66% { transform: rotate(-12deg) scale(1.08); }
+  70% { transform: rotate(12deg) scale(1.08); }
+  74% { transform: rotate(-10deg) scale(1.08); }
+  78% { transform: rotate(10deg) scale(1.08); }
+  82% { transform: rotate(-6deg) scale(1.04); }
+  86% { transform: rotate(5deg) scale(1.04); }
+  90% { transform: rotate(0) scale(1); }
+}
+@keyframes bot-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+@keyframes bot-bubble {
+  0%, 8% { opacity: 0; transform: translateY(6px) scale(0.95); }
+  14%, 80% { opacity: 1; transform: translateY(0) scale(1); }
+  90%, 100% { opacity: 0; transform: translateY(6px) scale(0.95); }
+}
+.bot-shake { animation: bot-shake 3.2s ease-in-out infinite; }
+.bot-ring { animation: bot-ring 2s ease-out infinite; }
+.bot-bubble { animation: bot-bubble 9s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .bot-shake, .bot-ring, .bot-bubble { animation: none; }
 }

@@ -151,19 +151,36 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Botón flotante */}
+      {/* Botón flotante: robot animado */}
       {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          aria-label="Abrir asistente virtual"
-          className="fixed bottom-5 right-5 z-[60] group flex items-center gap-3 pl-4 pr-5 py-3 rounded-full bg-gradient-to-r from-gold to-gold-dim text-dark font-bold text-sm shadow-[0_8px_30px_rgba(234,179,8,0.35)] hover:shadow-[0_8px_40px_rgba(234,179,8,0.55)] hover:-translate-y-0.5 transition-all"
-        >
-          <span className="relative">
-            <MessageCircle className="w-6 h-6" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-crimson ring-2 ring-gold animate-pulse" />
-          </span>
-          <span className="hidden sm:inline">Pregúntame</span>
-        </button>
+        <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3">
+          <div className="bot-bubble relative max-w-[210px] rounded-2xl rounded-br-md bg-white px-4 py-2.5 text-[13px] font-semibold leading-snug text-dark shadow-[0_8px_30px_rgba(0,0,0,0.45)] pointer-events-none">
+            ¡Hola! 👋 Pregúntame lo que quieras sobre la <span className="text-crimson">Lista 1</span>
+          </div>
+          <button
+            onClick={() => setOpen(true)}
+            aria-label="Abrir asistente virtual"
+            className="relative h-[72px] w-[72px] rounded-full"
+          >
+            <span className="bot-ring absolute inset-0 rounded-full bg-gold/60" />
+            <span className="bot-ring absolute inset-0 rounded-full bg-crimson/40 [animation-delay:0.8s]" />
+            <span className="bot-shake relative flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-gold via-[#F59E0B] to-crimson border-[3px] border-white shadow-[0_8px_30px_rgba(234,179,8,0.6)] hover:scale-110 transition-transform">
+              <svg viewBox="0 0 64 64" className="h-11 w-11" aria-hidden="true">
+                <line x1="32" y1="6" x2="32" y2="14" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+                <circle cx="32" cy="6" r="3.5" fill="#0D0D0F" stroke="#fff" strokeWidth="2" />
+                <rect x="10" y="14" width="44" height="34" rx="12" fill="#fff" />
+                <rect x="15" y="20" width="34" height="22" rx="8" fill="#0D0D0F" />
+                <circle cx="25" cy="31" r="4.5" fill="#22D3EE" />
+                <circle cx="39" cy="31" r="4.5" fill="#22D3EE" />
+                <path d="M26 38 Q32 42 38 38" stroke="#EAB308" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                <rect x="4" y="26" width="5" height="12" rx="2.5" fill="#fff" />
+                <rect x="55" y="26" width="5" height="12" rx="2.5" fill="#fff" />
+                <rect x="20" y="50" width="24" height="8" rx="4" fill="#fff" />
+              </svg>
+            </span>
+            <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-emerald-400 ring-2 ring-white" />
+          </button>
+        </div>
       )}
 
       {/* Panel */}
